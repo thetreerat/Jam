@@ -15,10 +15,13 @@ def GetDatePart(msgText, p):
 def GetDate(msgText, N=None, d="09", m="09", y="2015"):
    while True:
      try: 
-       print(msgText) y = int(GetDatePart('Please Enter Year [{0}] :
-       '.format(y), y)) m = int(GetDatePart('Please Enter Month [{0}] :
-       '.format(m), m)) d = int(GetDatePart('Please Enter Day [{0}] :
-       '.format(d), d)) TheDate = date(y,m,d) return TheDate break
+       print(msgText)
+       y = int(GetDatePart('Please Enter Year [{0}] :'.format(y), y))
+       m = int(GetDatePart('Please Enter Month [{0}] :'.format(m), m))
+       d = int(GetDatePart('Please Enter Day [{0}] :'.format(d), d))
+       #TheDate = date(y,m,d)
+       return date(y,m,d)
+       break
      except ValueError:
        print('Not a valid date! please try again')
      except:
