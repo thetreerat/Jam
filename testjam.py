@@ -19,7 +19,6 @@ def GetDate(msgText, N=None, d="09", m="09", y="2015"):
        y = int(GetDatePart('Please Enter Year [{0}] :'.format(y), y))
        m = int(GetDatePart('Please Enter Month [{0}] :'.format(m), m))
        d = int(GetDatePart('Please Enter Day [{0}] :'.format(d), d))
-       #TheDate = date(y,m,d)
        return date(y,m,d)
        break
      except ValueError:
