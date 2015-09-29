@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 def ValidateDay(d):
   while True:
@@ -27,15 +27,15 @@ def GetDatePart(msgText, p):
 def GetDate(msgText, N=None, d="09", m="09", y="2015"):
    while True:
      try: 
-       TheDate = ""
        print(msgText)
-       y = GetDatePart('Please Enter Year [{0}] : '.format(y), y)
-       m = GetDatePart('Please Enter Month [{0}] : '.format(m), m)
-       d = ValidateDay(GetDatePart('Please Enter Day [{0}] : '.format(d), d))
-
-       TheDate = '{0}/{1}/{2}'.format(d,m,y)
+       y = int(GetDatePart('Please Enter Year [{0}] : '.format(y), y))
+       m = int(GetDatePart('Please Enter Month [{0}] : '.format(m), m))
+       d = int(GetDatePart('Please Enter Day [{0}] : '.format(d), d))
+       TheDate = date(y,m,d)
        return TheDate
        break
+     except ValueError:
+       print('Not a valid date! please try again')
      except:
        print("Unexpected error")
        raise
