@@ -1,17 +1,5 @@
 from datetime import datetime, date
 
-def ValidateDay(d):
-  while True:
-    try:
-      d = int(d)
-      if d < 0 or d >=31:
-        raise ValueError()
-      return d
-    except ValueError:
-      print("That was not a valid number.  Try again...")
-      d = input("Please enter a number between 1-31")
-      #need to figure out how to reset.  
-
 def GetDatePart(msgText, p):
    while True:
      try:
@@ -27,13 +15,10 @@ def GetDatePart(msgText, p):
 def GetDate(msgText, N=None, d="09", m="09", y="2015"):
    while True:
      try: 
-       print(msgText)
-       y = int(GetDatePart('Please Enter Year [{0}] : '.format(y), y))
-       m = int(GetDatePart('Please Enter Month [{0}] : '.format(m), m))
-       d = int(GetDatePart('Please Enter Day [{0}] : '.format(d), d))
-       TheDate = date(y,m,d)
-       return TheDate
-       break
+       print(msgText) y = int(GetDatePart('Please Enter Year [{0}] :
+       '.format(y), y)) m = int(GetDatePart('Please Enter Month [{0}] :
+       '.format(m), m)) d = int(GetDatePart('Please Enter Day [{0}] :
+       '.format(d), d)) TheDate = date(y,m,d) return TheDate break
      except ValueError:
        print('Not a valid date! please try again')
      except:
