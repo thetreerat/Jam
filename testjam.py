@@ -23,14 +23,8 @@ def InsertSQL(B):
                              %(BatchDate)s,
                              %(InsertDate)s);""",B)
       print(cur.statusmessage)
-      print(cur.rowcount)
-      cur.execute("""select * from jam_2015."BatchList" """)
+      print('{} rows inserted '.format(cur.rowcount))
       con.commit()
-      ver = cur.fetchone()
-      #print(ver)   
-      ver = cur.fetchone()
-      print(cur.rowcount)
-#      print(ver)       
     
 
    except psycopg2.DatabaseError as e:
@@ -43,28 +37,6 @@ def InsertSQL(B):
       if con:
          con.close()
    
-def StringBuilder(Batch=[]):
-   try:
-      s = """insert into jam_2015."BatchList" ("BatchList"."MCode", 
-                           "BatchList"."BatchNumber", 
-                           "BatchList"."Jars_8oz", 
-                           "BatchList"."Jars_4oz", 
-                           "BatchList"."Jars_12oz", 
-                           "BatchList"."Batch_date", 
-                           "BatchList"."Date_inserted")
-            values ('%s',
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s);""" % (Batch['MCode'], Batch['BatchNumber'], Batch['Jars8'],
-                               Batch['Jars4'], Batch['Jars12'], Batch['BatchDate'],
-                               Batch['InsertDate'])        
-      return s
-   except ValueError:
-      print('ValueError')
-
 
 def GetDatePart(msgText, p):
    while True:
