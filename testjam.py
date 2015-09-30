@@ -1,4 +1,70 @@
 from datetime import datetime, date
+import sys
+import psycopg2
+
+def InsertSQL(B):
+   con = None 
+   try:
+      p = input("Password: ") 
+      con = psycopg2.connect(database='Jam', user='postgres', password=p) 
+      cur = con.cursor()
+      cur.execute("""INSERT INTO jam_2015."BatchList" ("MCode",
+                                                     "BatchNumber",
+                                                     "Jars_8oz",
+                                                     "Jars_4oz",
+                                                     "Jars_12oz",
+                                                     "Batch_date",
+                                                     "Date_inserted")
+                     VALUES (%(MCode)s,
+                             %(BatchNumber)s,
+                             %(Jars8)s,
+                             %(Jars4)s,
+                             %(Jars12)s,
+                             %(BatchDate)s,
+                             %(InsertDate)s);""",B)
+      print(cur.statusmessage)
+      print(cur.rowcount)
+      cur.execute("""select * from jam_2015."BatchList" """)
+      con.commit()
+      ver = cur.fetchone()
+      #print(ver)   
+      ver = cur.fetchone()
+      print(cur.rowcount)
+#      print(ver)       
+    
+
+   except psycopg2.DatabaseError as e:
+      print (e)   
+      sys.exit(1)
+    
+    
+   finally:
+    
+      if con:
+         con.close()
+   
+def StringBuilder(Batch=[]):
+   try:
+      s = """insert into jam_2015."BatchList" ("BatchList"."MCode", 
+                           "BatchList"."BatchNumber", 
+                           "BatchList"."Jars_8oz", 
+                           "BatchList"."Jars_4oz", 
+                           "BatchList"."Jars_12oz", 
+                           "BatchList"."Batch_date", 
+                           "BatchList"."Date_inserted")
+            values ('%s',
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s);""" % (Batch['MCode'], Batch['BatchNumber'], Batch['Jars8'],
+                               Batch['Jars4'], Batch['Jars12'], Batch['BatchDate'],
+                               Batch['InsertDate'])        
+      return s
+   except ValueError:
+      print('ValueError')
+
 
 def GetDatePart(msgText, p):
    while True:
@@ -62,22 +128,28 @@ def GetNumber(msgText, N=0):
       except ValueError:
          print("That was not a valid number.  Try again...")
 
-if __name__ == '__main__': 
-    MCode = Getstring("Please enter 2 letter Batch Code: ",U=True, S='a')
-    BatchNumber = GetNumber("Please a batch number: ", 1)
-    Jars8 = GetNumber("Enter number of 8oz Jars in Batch: ")
-    Jars4 = GetNumber("Enter number of 4oz Jars in Batch: ")
-    Jars12 = GetNumber("Enter number of 12oz Jars in Batch: ")
-    InsertDate = datetime.now()
-    InsertDate2 = datetime.utcnow()
-    BatchDate = GetDate("Please enter the date the Batch was Made: ")
+def PrintResults(B):
     print("")
-    print("Master Batch Code: " + MCode)
-    print("Batch Number: " + str(BatchNumber))
-    print("Full Batch Code: " + MCode + str(BatchNumber))
-    print("Number of 8oz Jars: " + str(Jars8))
-    print("Number of 4oz Jars: " + str(Jars4))
-    print("Number of 12oz Jars: " + str(Jars12))
-    print("Date Batch Made: " + str(BatchDate))
-    print ("Date recorded in Database: " + str(InsertDate) + " " + str(InsertDate.tzname()))
-    print ("Date recorded in Database: " + str(InsertDate2) + " " + str(InsertDate.tzname()))
+    print("Master Batch Code: " + Batch['MCode'])
+    print("Batch Number: " + str(Batch['BatchNumber']))
+    print("Full Batch Code: " + Batch['MCode'] + str(Batch['BatchNumber']))
+    print("Number of 8oz Jars: " + str(Batch['Jars8']))
+    print("Number of 4oz Jars: " + str(Batch['Jars4']))
+    print("Number of 12oz Jars: " + str(Batch['Jars12']))
+    print("Date Batch Made: " + str(Batch['BatchDate']))
+    print ("Date recorded in Database: " + str(Batch['InsertDate']) + " " + str(Batch['InsertDate'].tzname()))
+    print ("Date recorded in Database: " + str(Batch['InsertDate2']) + " " + str(Batch['InsertDate'].tzname()))
+   
+if __name__ == '__main__':
+    Batch = {}
+    Batch['MCode'] = Getstring("Please enter 2 letter Batch Code: ",U=True, S='a')
+    Batch['BatchNumber'] = GetNumber("Please a batch number: ", 1)
+    Batch['Jars8'] = GetNumber("Enter number of 8oz Jars in Batch: ")
+    Batch['Jars4'] = GetNumber("Enter number of 4oz Jars in Batch: ")
+    Batch['Jars12'] = GetNumber("Enter number of 12oz Jars in Batch: ")
+    Batch['InsertDate'] = datetime.now()
+    Batch['InsertDate2'] = datetime.utcnow()
+    Batch['BatchDate'] = GetDate("Please enter the date the Batch was Made: ")
+    Batch['InsertSQL'] = StringBuilder(Batch)
+    InsertSQL(Batch)
+    #PrintResults(Batch)
