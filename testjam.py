@@ -122,6 +122,5 @@ if __name__ == '__main__':
     Batch['InsertDate'] = datetime.now()
     Batch['InsertDate2'] = datetime.utcnow()
     Batch['BatchDate'] = GetDate("Please enter the date the Batch was Made: ")
-    Batch['InsertSQL'] = StringBuilder(Batch)
     InsertSQL(Batch)
     #PrintResults(Batch)
