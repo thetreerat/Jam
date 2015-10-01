@@ -11,5 +11,5 @@ to work:
    
 you need to run createtables.py in SQL folder (pasted into sql query tool in pgadmin III tool)
 becuase there is no foreign key constrain you do not have to run  LoadMasterTable.py but in furture you will
-run testjam.py
+run jam.py
 
