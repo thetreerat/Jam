@@ -45,6 +45,8 @@ def mainscreenmessage():
     m = """     Main Screen
                    GET - Input Batch data
                    LOAD - Load Data into database
+                   ADD - Add New Master Code
+                   NEW - Input New Master Code
                    EXIT - Quit"""
     return m
 
@@ -93,6 +95,31 @@ def getstring(msgText, Length=2, U=False, S=None):
         #print(e)
         print("Code to long. Try agian...")
 
+def insertmasterbatcodes(mastercode, con, c):
+    try:
+        if 'mcode' in mastercode:
+            cur = con.cursor()
+            cur.execute("""select * from jam_2015."MasterBatchCodes"
+                           where "MCode" = %(mcode)s""",mastercode)
+            if not cur.rowcount:
+                cur.execute("""INSERT INTO jam_2015."MasterBatchCodes" ("MCode",
+                                                     "JamName")
+                               VALUES (%(mcode)s,
+                                       %(jamname)s);""",mastercode)
+
+                c += 1
+                con.commit()
+                return c
+            else:
+                print("Master Code in Database")
+        else:    
+            return False
+
+    except psycopg2.DatabaseError as e:
+      print (e)   
+      return
+
+
 def insertsql(b, con):
     try:
         if not 'mcode' in b:
@@ -120,7 +147,12 @@ def insertsql(b, con):
         if e.pgcode=='23505':
             print("""Batch Code %s already used with %s Bacth Number""" % (b['mcode'],b['batchnumber']))
             return False
-        
+
+def getmastercode(mastercode):
+    mastercode['mcode'] = getstring("Please enter 2 letter Batch Code: ", Length=2, U=True, S=None)
+    mastercode['jamname'] = getstring("Please Enter Jam Name", Length=32, U=False, S=None)
+    return mastercode
+
 def getnumber(msgText, N=0):
    while True:
       try:
@@ -137,6 +169,7 @@ def getnumber(msgText, N=0):
 if __name__ == '__main__':
     con = None
     batch = {}
+    mastercode = {}
     try:
         con = opendatabase(con)
         print("Hello, Database Open")
@@ -156,6 +189,19 @@ if __name__ == '__main__':
                 print('Getting Data from you ...')
                 batch = getbatchdata(batch)
                 #print(batch)
+                input('<enter>')
+            elif answer in ['ADD', 'AD', 'A']:
+                RowCount = 0
+                print('Add New Master Code')
+                status = insertmasterbatcodes(mastercode, con, RowCount)
+                if status:
+                    print('{0} Row(s) added'.format(status))
+                else:
+                    print('No Records added')
+                input('<enter>')
+            elif answer in ['NEW', 'NE', 'N']:
+                print('New Master Code Input')
+                mastercode = getmastercode(mastercode)
                 input('<enter>')
             elif answer in ['EXIT', 'E', 'Q', 'QUIT']:
                 break
