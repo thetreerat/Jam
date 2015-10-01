@@ -10,6 +10,8 @@ to work:
    psycopg2 install in python
    
 you need to run createtables.py in SQL folder (pasted into sql query tool in pgadmin III tool)
-becuase there is no foreign key constrain you do not have to run  LoadMasterTable.py but in furture you will
-run jam.py
+becuase there is no foreign key constrain you do not have to run  LoadMasterTable.py
+
+
+run jam.py to enter batch data and load into batchlist table
 
