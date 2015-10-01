@@ -5,9 +5,13 @@ def opendatabase(c):
     badtrycount=0
     while True:
         try:
-            badtrycount = badtrycount + 1
-            p = input("Password: ") 
-            c = psycopg2.connect(database='Jam', user='postgres', password=p) 
+            badtrycount += 1
+            p = input("Password: ")
+            if p:
+                c = psycopg2.connect(database='Jam', user='postgres', password=p)
+            else:
+                print('No Password entered, Bye, Bye')
+                sys.exit(1)
         except psycopg2.Error as e:
             if not e.pgcode:
                 print("Bad password")
@@ -21,8 +25,8 @@ def opendatabase(c):
             break
         else:
             if badtrycount>=3:
-                print("Who you?")
-                break
+                print("Could not open Database, Bye, Bye!")
+                sys.exit(1)
     return c
 
 def getdatepart(msgText, p):
@@ -91,7 +95,7 @@ def getstring(msgText, Length=2, U=False, S=None):
 
 def insertsql(b, con):
     try:
-        if b['mcode']==None:
+        if not 'mcode' in b:
             print('No data entered')
             return False
         cur = con.cursor()
