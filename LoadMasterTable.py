@@ -5,12 +5,12 @@ def InsertSQL(B, con, C):
    try:
       cur = con.cursor()
       cur.execute("""select * from jam_2015."MasterBatchCodes"
-                     where "MCode" = %(MCode)s""",B)
+                     where "MCode" = %(mcode)s""",B)
       if not cur.rowcount:
          cur.execute("""INSERT INTO jam_2015."MasterBatchCodes" ("MCode",
                                                      "JamName")
-                        VALUES (%(MCode)s,
-                                %(JamName)s);""",B)
+                        VALUES (%(mcode)s,
+                                %(jamname)s);""",B)
 
          C = cur.rowcount + C
       con.commit()
@@ -21,60 +21,60 @@ def InsertSQL(B, con, C):
       return
 
 
-def LoadData():
+def loaddata():
     print("Loading list with Data ...")
-    Codes = []
-    Code = {'MCode': 'A', 'JamName': 'Raspberry'}
-    Codes.append(Code)
-    Code = {'MCode': 'B', 'JamName': 'Blueberry'}
-    Codes.append(Code)
-    Code = {'MCode': 'C', 'JamName': 'Red Current'}
-    Codes.append(Code)
-    Code = {'MCode': 'D', 'JamName': 'Black Raspberry'}
-    Codes.append(Code)
-    Code = {'MCode': 'E', 'JamName': 'Gooseberry'}
-    Codes.append(Code)
-    Code = {'MCode': 'F', 'JamName': 'Blueberry-Apricot'}
-    Codes.append(Code)
-    Code = {'MCode': 'G', 'JamName': 'Strawberry-Ginger'}
-    Codes.append(Code)
-    Code = {'MCode': 'AA', 'JamName': 'Strawberry-Lemon'}
-    Codes.append(Code)
-    Code = {'MCode': 'AB', 'JamName': 'Strawberr-Sour Cherry'}
-    Codes.append(Code)
-    Code = {'MCode': 'AC', 'JamName': 'Strawberry-Raspberry-Black Raspberry'}
-    Codes.append(Code)
+    codes = []
+    code = {'mcode': 'A', 'jamname': 'Raspberry'}
+    codes.append(code)
+    code = {'mcode': 'B', 'jamname': 'Blueberry'}
+    codes.append(code)
+    code = {'mcode': 'C', 'jamname': 'Red Current'}
+    codes.append(code)
+    code = {'mcode': 'D', 'jamname': 'Black Raspberry'}
+    codes.append(code)
+    code = {'mcode': 'E', 'jamname': 'Gooseberry'}
+    codes.append(code)
+    code = {'mcode': 'F', 'jamname': 'Blueberry-Apricot'}
+    codes.append(code)
+    code = {'mcode': 'G', 'jamname': 'Strawberry-Ginger'}
+    codes.append(code)
+    code = {'mcode': 'AA', 'jamname': 'Strawberry-Lemon'}
+    codes.append(code)
+    code = {'mcode': 'AB', 'jamname': 'Strawberr-Sour Cherry'}
+    codes.append(code)
+    code = {'mcode': 'AC', 'jamname': 'Strawberry-Raspberry-Black Raspberry'}
+    codes.append(code)
     #New Lins if needed
-    #Code = {'MCode': '', 'JamName': ''}
-    #Codes.append(Code)
+    #code = {'mcode': '', 'jamname': ''}
+    #codes.append(code)
 
-    Codes.reverse()
-    return Codes
+    codes.reverse()
+    return codes
     print ("Data Load in to list")
     
-def WarrningMessage():
+def warrningmessage():
     print("""
 
-This is a one time script for loading MCodes in to MasterBatchCodes
+This is a one time script for loading Mcodes in to MasterBatchcodes
 
 
 
 """)
 
 if __name__ == '__main__':
-    WarrningMessage()
-    Answer = input("Do you still want to Run(yes)? ")
-    if Answer.upper()=='YES':
-      CurrentCount = 0 
-      CodeList = LoadData()
+    warrningmessage()
+    answer = input("Do you still want to Run(yes)? ")
+    if answer.upper()=='YES':
+      currentcount = 0 
+      codelist = loaddata()
       con = None
       try:
         p = input("Password: ") 
         con = psycopg2.connect(database='Jam', user='postgres', password=p) 
 
-        while len(CodeList):
+        for code in codelist:
           # need to clean up so not open and closing connection 
-          CurrentCount = InsertSQL(CodeList.pop(), con, CurrentCount)
+          currentcount = InsertSQL(code, con, currentcount)
           
       except psycopg2.DatabaseError as e:
         print (e)   
@@ -85,5 +85,5 @@ if __name__ == '__main__':
     
         if con:
            con.close()         
-      print('{}'.format(CurrentCount))    
+      print('{}'.format(currentcount))    
     

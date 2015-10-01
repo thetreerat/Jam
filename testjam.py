@@ -2,7 +2,7 @@ from datetime import datetime, date
 import sys
 import psycopg2
 
-def InsertSQL(B):
+def insertsql(B):
    con = None 
    try:
       p = input("Password: ") 
@@ -38,7 +38,7 @@ def InsertSQL(B):
          con.close()
    
 
-def GetDatePart(msgText, p):
+def getdatepart(msgText, p):
    while True:
      try:
        DatePart = input(msgText)
@@ -50,13 +50,13 @@ def GetDatePart(msgText, p):
      except:
        print("Unexpected error")
 
-def GetDate(msgText, N=None, d="09", m="09", y="2015"):
+def getdate(msgText, N=None, d="09", m="09", y="2015"):
    while True:
      try: 
        print(msgText)
-       y = int(GetDatePart('Please Enter Year [{0}] :'.format(y), y))
-       m = int(GetDatePart('Please Enter Month [{0}] :'.format(m), m))
-       d = int(GetDatePart('Please Enter Day [{0}] :'.format(d), d))
+       y = int(getdatepart('Please Enter Year [{0}] :'.format(y), y))
+       m = int(getdatepart('Please Enter Month [{0}] :'.format(m), m))
+       d = int(getdatepart('Please Enter Day [{0}] :'.format(d), d))
        return date(y,m,d)
        break
      except ValueError:
@@ -66,7 +66,7 @@ def GetDate(msgText, N=None, d="09", m="09", y="2015"):
        raise
 
 
-def Getstring(msgText, Length=2, U=False, S=None):
+def getstring(msgText, Length=2, U=False, S=None):
    while True:
      try:
         if S:
@@ -87,7 +87,7 @@ def Getstring(msgText, Length=2, U=False, S=None):
         #print(e)
         print("Code to long. Try agian...")
 
-def GetNumber(msgText, N=0):
+def getnumber(msgText, N=0):
    while True:
       try:
          TheNumber = input(msgText + "[" + str(N) + "] ")
@@ -100,7 +100,7 @@ def GetNumber(msgText, N=0):
       except ValueError:
          print("That was not a valid number.  Try again...")
 
-def PrintResults(B):
+def printresults(B):
     print("")
     print("Master Batch Code: " + Batch['MCode'])
     print("Batch Number: " + str(Batch['BatchNumber']))
@@ -114,13 +114,13 @@ def PrintResults(B):
    
 if __name__ == '__main__':
     Batch = {}
-    Batch['MCode'] = Getstring("Please enter 2 letter Batch Code: ",U=True, S='a')
-    Batch['BatchNumber'] = GetNumber("Please a batch number: ", 1)
-    Batch['Jars8'] = GetNumber("Enter number of 8oz Jars in Batch: ")
-    Batch['Jars4'] = GetNumber("Enter number of 4oz Jars in Batch: ")
-    Batch['Jars12'] = GetNumber("Enter number of 12oz Jars in Batch: ")
+    Batch['MCode'] = getstring("Please enter 2 letter Batch Code: ",U=True, S='a')
+    Batch['BatchNumber'] = getnumber("Please a batch number: ", 1)
+    Batch['Jars8'] = getnumber("Enter number of 8oz Jars in Batch: ")
+    Batch['Jars4'] = getnumber("Enter number of 4oz Jars in Batch: ")
+    Batch['Jars12'] = getnumber("Enter number of 12oz Jars in Batch: ")
     Batch['InsertDate'] = datetime.now()
     Batch['InsertDate2'] = datetime.utcnow()
-    Batch['BatchDate'] = GetDate("Please enter the date the Batch was Made: ")
-    InsertSQL(Batch)
-    #PrintResults(Batch)
+    Batch['BatchDate'] = getdate("Please enter the date the Batch was Made: ")
+    insertsql(Batch)
+    printresults(Batch)
