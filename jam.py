@@ -170,6 +170,7 @@ if __name__ == '__main__':
     con = None
     batch = {}
     mastercode = {}
+    codes = []
     try:
         con = opendatabase(con)
         print("Hello, Database Open")
@@ -203,6 +204,11 @@ if __name__ == '__main__':
                 print('New Master Code Input')
                 mastercode = getmastercode(mastercode)
                 input('<enter>')
+            elif answer in ['LIST', 'LIS', 'LI', 'L']:
+                print('New Master Code Input')
+                codes = listmastercodes(codes, con)
+                input('<enter>')
+                
             elif answer in ['EXIT', 'E', 'Q', 'QUIT']:
                 break
             else:
