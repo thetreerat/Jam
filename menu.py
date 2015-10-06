@@ -1,5 +1,7 @@
 import sys, os
 
+def collecttablename():
+    
 def mainscreenmessage():
  
     print("""     Main screen
@@ -32,8 +34,8 @@ if __name__ == '__main__':
                     else:
                         input('No Table Name matching input <enter>')
                 else:
-                    input('No Table Name Entered <enter>')
-
+                    tablename
+                    
             elif a[0] in ['LOAD', 'LOA', 'LO']:
                 if len(a)>=2:
                     if a[1] in ['MASTER', 'MASTE', 'MAST', 'MAS', 'MA', 'M']:
