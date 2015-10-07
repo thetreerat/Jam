@@ -2,6 +2,8 @@
 This is a sample app for job interveiw
 it collects data from user and dose some simple vatation and inserts into the PostgreSQL tables.
 
+the script uses a cisco style input. if a is unique that all that need to add. 
+
 to work:
    access to localhost PostgresSQL server running 9.4
    created database jam
