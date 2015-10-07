@@ -2,8 +2,8 @@
 This is a sample app for job interveiw
 it collects data from user and dose some simple vatation and inserts into the PostgreSQL tables.
 
-The script uses a cisco style input. if "a" is unique that all that need to add. it dose not have an auto complete
-though. 
+The script uses a cisco style input. if "a" is unique that is all that need to "add". it dose not have an auto complete
+though. complete commands would be "add master" or "load master". the menu are case insensitve. 
 
 to work:
    access to localhost PostgresSQL server running 9.4
