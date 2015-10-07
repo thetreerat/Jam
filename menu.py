@@ -1,8 +1,6 @@
 import sys, os
 
-def collecttablename():
-    print(""" collecttablename""")
-    return None
+
 def mainscreenmessage():
  
     print("""     Main screen
@@ -34,10 +32,16 @@ if __name__ == '__main__':
                             break
                         elif answer[1] in ['BATCH', 'BATC', 'BAT', 'BA', 'B']:
                             input('List Batch Data <enter>')
+                            break
+                        elif answer[1] in ['EXIT', 'EXI', 'EX', 'E']:
+                            break
+                        elif answer[1] in ['QUIT', 'QUI', 'QU', 'Q']:
+                            sys.exit(1)
+
                         else:
-                            input('No Table Name matching input <enter>')
+                            answer[1] = input('Invalid table name, please reenter MASTER OR BATCH :').upper()
                     else:
-                        tablename
+                        answer.append(input('No Table Name Entered, Please pick MASTER or BATCH :').upper())
                     
                 elif answer[0] in ['LOAD', 'LOA', 'LO']:
                     if len(answer)>=2:
@@ -64,10 +68,14 @@ if __name__ == '__main__':
                         elif answer[1] in ['BATCH', 'BATC', 'BAT', 'BA', 'B']:
                             input(' Add Batch Data <enter>')
                             break
+                        elif answer[1] in ['EXIT', 'EXI', 'EX', 'E']:
+                            break
+                        elif answer[1] in ['QUIT', 'QUI', 'QU', 'Q']:
+                            sys.exit(1)
                         else:
-                            input('No Table Name matching <enter>')
+                            answer[1] = input('Invalid table name, please reenter MASTER OR BATCH :').upper()
                     else:
-                        input('No Table Name Entered <enter>')
+                        answer.append(input('No Table Name Entered, Please pick MASTER or BATCH :').upper())
                     
                 else:
                     input('Input not Valid <enter>')
